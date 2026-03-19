@@ -2,7 +2,7 @@ import customtkinter as ctk
 from database import conectar
 from tkinter import messagebox
 
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("grenn")
 ctk.set_default_color_theme("blue")
 
 class App(ctk.CTk):
