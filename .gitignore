@@ -1,0 +1,32 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+venv/
+.venv/
+env/
+
+# --- Banco de Dados (SQLite) ---
+# Ignora o arquivo do banco de dados para não subir seus dados pessoais de rotina
+*.db
+*.db-journal
+*.sqlite3
+
+# --- Interface (Tkinter / CustomTkinter) ---
+# Caso você use temas externos ou arquivos de configuração de UI locais
+*.tcl
+*.json
+!theme.json
+
+# --- Variáveis de Ambiente ---
+.env
+.flaskenv
+
+# --- Editores e Sistema ---
+.vscode/
+.history/
+*.log
+Thumbs.db
+.DS_Store
+desktop.ini
