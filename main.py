@@ -1,10 +1,6 @@
-from func import iniciar_sistema
-from gui import *
+from gui import App
 
 if __name__ == "__main__":
+    # Inicia apenas a interface gráfica
     app = App()
     app.mainloop()
-    try:
-        iniciar_sistema()
-    except KeyboardInterrupt:
-        print("\n\nSistema encerrado pelo usuário. Até logo!")

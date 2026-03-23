@@ -3,16 +3,17 @@ from database import conectar
 
 atividades = []
 def registro_rotina():
-    nome = input("Nome da atividade do dia de hoje: ")
+    nome = input("Nome da atividade: ")
+    pasta = input("Em qual pasta/categoria (ex: Estudos, Trabalho): ") 
 
     conn, cursor = conectar()
-
     
-    cursor.execute('INSERT INTO tarefas (atividade, status) VALUES (?, ?)', (nome, 'Pendente'))
+    cursor.execute('INSERT INTO tarefas (atividade, categoria, status) VALUES (?, ?, ?)', 
+                   (nome, pasta, 'Pendente'))
     
     conn.commit()
     conn.close()
-    print(f"✅ {nome} salva no banco de dados")
+    print(f"✅ {nome} salva na pasta [{pasta}]")
     input("\nPressione Enter para continuar...")
 
     
@@ -70,20 +71,46 @@ def remover():
 
 
 def listar_rotina():
-    print("\n--- SUAS ATIVIDADES ---")
+    print("\n--- SUAS ATIVIDADES POR PASTA ---")
     conn, cursor = conectar()
-    cursor.execute('SELECT * FROM tarefas')
+    
+    cursor.execute('SELECT id, atividade, status, categoria FROM tarefas ORDER BY categoria')
     linhas = cursor.fetchall()
     conn.close()
 
     if not linhas:
         print("Lista vazia.")
     else:
+        pasta_atual = ""
         for item in linhas:
-            print(f"{item[0]}. {item[1]} [{item[2]}]")
-    
+            id_t, nome, status_t, pasta = item
+            
+            if pasta != pasta_atual:
+                print(f"\n📂 PASTA: {pasta.upper()}")
+                pasta_atual = pasta
+            
+            simbolo = "✅" if status_t == "Concluída" else "⏳"
+            print(f"   {id_t}. {nome} [{simbolo}]")
     
     input("\nPressione Enter para continuar...")
+
+
+def atualizar_lista(tree, dados_do_banco):
+    
+    for i in tree.get_children():
+        tree.delete(i)
+        
+    
+    categorias_criadas = {}
+
+    for id_task, nome, cat in dados_do_banco:
+        if cat not in categorias_criadas:
+            
+            pai = tree.insert("", "end", text=cat, open=True) 
+            categorias_criadas[cat] = pai
+            
+        
+        tree.insert(categorias_criadas[cat], "end", text=nome, values=(id_task,))
 
 
 
