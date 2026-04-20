@@ -7,11 +7,11 @@ class App(ctk.CTk):
         super().__init__()
         self.title("Focused Mind Day")
         self.geometry("500x700")
-        # Opções: "dark" (padrão), "light" ou "system"
+        
         ctk.set_appearance_mode("dark")
         
 
-        # Inputs
+        
         ctk.CTkLabel(self, text="Nova Atividade:", font=("Roboto", 16)).pack(pady=(20,5))
         self.entry_tarefa = ctk.CTkEntry(self, placeholder_text="O que vamos fazer?", width=350)
         self.entry_tarefa.pack(pady=5)
@@ -23,7 +23,7 @@ class App(ctk.CTk):
         self.btn_add = ctk.CTkButton(self, text="Adicionar Rotina", command=self.adicionar_tarefa, fg_color="#24a0ed")
         self.btn_add.pack(pady=20)
 
-        # Container da Lista
+        
         self.frame_lista = ctk.CTkScrollableFrame(self, width=450, height=400, label_text="Minhas Tarefas")
         self.frame_lista.pack(pady=10, padx=20, fill="both", expand=True)
 
@@ -48,7 +48,7 @@ class App(ctk.CTk):
             messagebox.showwarning("Aviso", "Preencha todos os campos!")
 
     def atualizar_interface(self):
-        # Limpa a interface atual
+        
         for widget in self.frame_lista.winfo_children():
             widget.destroy()
 
@@ -60,28 +60,28 @@ class App(ctk.CTk):
         for item in cursor.fetchall():
             id_banco, nome, pasta, status = item
             
-            # Cabeçalho da Categoria
+            
             if pasta != pasta_atual:
                 pasta_atual = pasta
                 lbl_cat = ctk.CTkLabel(self.frame_lista, text=f"📂 {pasta.upper()}", 
                                      font=("Roboto", 14, "bold"), text_color="#3b8ed0")
                 lbl_cat.pack(fill="x", pady=(15, 5), padx=10)
 
-            # Frame da Tarefa
+            
             f = ctk.CTkFrame(self.frame_lista, fg_color="#2b2b2b")
             f.pack(fill="x", pady=2, padx=10)
 
-            # Texto da tarefa (com check simples)
+            
             simbolo = "✅" if status == "Concluída" else "❌"
             lbl_task = ctk.CTkLabel(f, text=f"{simbolo} {nome}", font=("Roboto", 13))
             lbl_task.pack(side="left", padx=10, pady=5)
 
-            # Botão Deletar
+            
             btn_del = ctk.CTkButton(f, text="🗑️", width=30, fg_color="#cc3300", 
                                    command=lambda i=id_banco: self.deletar(i))
             btn_del.pack(side="right", padx=5)
 
-            # Botão Alternar Status
+            
             btn_status = ctk.CTkButton(f, text="Concluída", width=60, 
                                       command=lambda i=id_banco, s=status: self.alternar_status(i, s))
             btn_status.pack(side="right", padx=5)
